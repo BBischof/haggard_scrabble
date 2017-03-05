@@ -21,6 +21,7 @@ class StreamListener(tweepy.StreamListener):
     words = hp.reader(mostrecenttweet.text)
     scores = hp.scrabble_scores(words)
     new_status = hp.write_reply(words, scores)
+    print new_status
     api.update_status(new_status, mostrecenttweet.id)
 
   def on_error(self, status_code):
@@ -29,13 +30,4 @@ class StreamListener(tweepy.StreamListener):
 
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
-stream.filter(follow=[223231567])
-
-
-
-
-
-
-
-
-#223231567
+stream.filter(follow=["2239350253"])
