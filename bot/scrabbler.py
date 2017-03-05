@@ -20,6 +20,7 @@ words = hp.reader(mostrecenttweet.text)
 scores = hp.scrabble_scores(words)
 new_status = hp.write_reply(words, scores)
 
-api.update_status(new_status, mostrecenttweet.id)
+if new_status:
+  api.update_status(new_status, mostrecenttweet.id)
 
 #HH id: 2239350253

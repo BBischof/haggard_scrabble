@@ -18,17 +18,15 @@ def reader(text):
 
 '''converts words to their scrabble value'''
 def scrabble_scores(words):
-  if not words:
-    return ["0"]
-  else:
-    scores = []
+  scores = []
+  if words:
     for word in words:
       if len(word) >= 7:
         pass
         scores.append(('A BINGO! %s' % (sum([letter_scores[l] for l in word])+50)))
       else:
         scores.append(str(sum([letter_scores[l] for l in word])))
-    return scores
+  return scores
 
 '''
 uses the word and score to write the reply tweet
@@ -36,9 +34,9 @@ uses the word and score to write the reply tweet
 '''
 def write_reply(words, scores):
   if not words:
-    return ""
+    pass
   elif len(words)==1:
     return "Nice word, @HaggardHawks; %s is worth %spts in Scrabble!" % (words[0].upper(),scores[0])
   else:
     pairs = ['%s is worth %spts' % (x.upper(),y) for (x,y) in zip(words, scores)]
-    return "Nice word; " + ", ".join(pairs[:-1]) + ", and %s is worth %spts" % (words[-1].upper(), scores[-1]) + " in Scrabble!"
+    return "Nice word, @HaggardHawks; " + ", ".join(pairs[:-1]) + ", and %s is worth %spts" % (words[-1].upper(), scores[-1]) + " in Scrabble!"

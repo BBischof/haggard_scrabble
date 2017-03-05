@@ -21,8 +21,9 @@ class StreamListener(tweepy.StreamListener):
     words = hp.reader(mostrecenttweet.text)
     scores = hp.scrabble_scores(words)
     new_status = hp.write_reply(words, scores)
-    print new_status
-    api.update_status(new_status, mostrecenttweet.id)
+    if new_status:
+      print new_status
+      api.update_status(new_status, mostrecenttweet.id)
 
   def on_error(self, status_code):
     if status_code == 420:

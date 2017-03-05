@@ -1,4 +1,4 @@
-import haggard_parser as hp
+from bot.parser import haggard_parser as hp
 
 def test_reader():
     tweet = "A HAGGARD tweet looks like this"
@@ -17,7 +17,7 @@ def test_tweet_scores():
 
 def test_null_tweet_scores():
     tweet = "A non-haggard tweet looks like this"
-    scores = ["0"]
+    scores = []
     assert hp.scrabble_scores(hp.reader(tweet)) == scores
 
 def test_bingo_tweet_scores():
@@ -43,25 +43,32 @@ def test_hyphen_tweet():
 def test_tweet_writer():
     words = ["HAGGARD"]
     scores = ["A BINGO! 63"]
-    tweet_reply = "Nice word; HAGGARD is worth A BINGO! 63pts in Scrabble!"
+    tweet_reply = "Nice word, @HaggardHawks; HAGGARD is worth A BINGO! 63pts in Scrabble!"
     assert hp.write_reply(words, scores) == tweet_reply
 
 def test_multi_word_tweet_writer():
     words = ["HAGGARD", "HAGGY", "abz"]
     scores = ["A BINGO! 63", "13", "14"]
-    tweet_reply = "Nice word; HAGGARD is worth A BINGO! 63pts, HAGGY is worth 13pts, and ABZ is worth 14pts in Scrabble!"
+    tweet_reply = "Nice word, @HaggardHawks; HAGGARD is worth A BINGO! 63pts, HAGGY is worth 13pts, and ABZ is worth 14pts in Scrabble!"
     assert hp.write_reply(words, scores) == tweet_reply
 
 def test_tweet_writer_score_integration():
     tweet = "A HAGGARD tweet looks like this"
-    tweet_reply = "Nice word; HAGGARD is worth A BINGO! 63pts in Scrabble!"
+    tweet_reply = "Nice word, @HaggardHawks; HAGGARD is worth A BINGO! 63pts in Scrabble!"
     words = hp.reader(tweet)
     scores = hp.scrabble_scores(words)
     assert hp.write_reply(words, scores) == tweet_reply
 
 def test_tweet_writer_score_integration_multi_word():
     tweet = "A GIROUETTE is a weathercock. GIROUETTISM is a constant changing of opinions."
-    tweet_reply = "Nice word; GIROUETTE is worth A BINGO! 60pts, and GIROUETTISM is worth A BINGO! 64pts in Scrabble!"
+    tweet_reply = "Nice word, @HaggardHawks; GIROUETTE is worth A BINGO! 60pts, and GIROUETTISM is worth A BINGO! 64pts in Scrabble!"
+    words = hp.reader(tweet)
+    scores = hp.scrabble_scores(words)
+    assert hp.write_reply(words, scores) == tweet_reply
+
+def test_tweet_writer_null_word():
+    tweet = "A non-haggard tweet looks like this"
+    tweet_reply = None
     words = hp.reader(tweet)
     scores = hp.scrabble_scores(words)
     assert hp.write_reply(words, scores) == tweet_reply
