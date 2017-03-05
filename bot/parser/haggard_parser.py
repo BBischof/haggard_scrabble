@@ -38,7 +38,7 @@ def write_reply(words, scores):
   if not words:
     return ""
   elif len(words)==1:
-    return "Nice word; %s is worth %spts in Scrabble!" % (words[0].upper(),scores[0])
+    return "Nice word, @HaggardHawks; %s is worth %spts in Scrabble!" % (words[0].upper(),scores[0])
   else:
     pairs = ['%s is worth %spts' % (x.upper(),y) for (x,y) in zip(words, scores)]
     return "Nice word; " + ", ".join(pairs[:-1]) + ", and %s is worth %spts" % (words[-1].upper(), scores[-1]) + " in Scrabble!"
