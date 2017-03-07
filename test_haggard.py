@@ -15,6 +15,26 @@ def test_tweet_scores():
     scores = ["13"]
     assert hp.scrabble_scores(hp.reader(tweet)) == scores
 
+def test_already_tweeted():
+    word = "finished"
+    hp.add_word_to_log(word)
+    assert hp.check_new(word) == False
+
+def test_log_already_tweeted():
+    word = "written"
+    assert hp.check_new(word) == True
+    hp.add_word_to_log(word)
+    assert hp.check_new(word) == False
+    hp.remove_word_from_log(word)
+
+def test_add_and_remove():
+    word = "temporary"
+    assert hp.check_new(word) == True
+    hp.add_word_to_log(word)
+    assert hp.check_new(word) == False
+    hp.remove_word_from_log(word)
+    assert hp.check_new(word) == True
+
 def test_null_tweet_scores():
     tweet = "A non-haggard tweet looks like this"
     scores = []
@@ -51,6 +71,8 @@ def test_multi_word_tweet_writer():
     scores = ["A BINGO! 63", "13", "14"]
     tweet_reply = "Nice word, @HaggardHawks; HAGGARD is worth A BINGO! 63pts, HAGGY is worth 13pts, and ABZ is worth 14pts in Scrabble!"
     assert hp.write_reply(words, scores) == tweet_reply
+    for w in words:
+        hp.remove_word_from_log(w.lower())
 
 def test_tweet_writer_score_integration():
     tweet = "A HAGGARD tweet looks like this"
@@ -58,6 +80,8 @@ def test_tweet_writer_score_integration():
     words = hp.reader(tweet)
     scores = hp.scrabble_scores(words)
     assert hp.write_reply(words, scores) == tweet_reply
+    for w in words:
+        hp.remove_word_from_log(w.lower())
 
 def test_tweet_writer_score_integration_multi_word():
     tweet = "A GIROUETTE is a weathercock. GIROUETTISM is a constant changing of opinions."
@@ -65,6 +89,8 @@ def test_tweet_writer_score_integration_multi_word():
     words = hp.reader(tweet)
     scores = hp.scrabble_scores(words)
     assert hp.write_reply(words, scores) == tweet_reply
+    for w in words:
+        hp.remove_word_from_log(w.lower())
 
 def test_tweet_writer_null_word():
     tweet = "A non-haggard tweet looks like this"
@@ -72,5 +98,16 @@ def test_tweet_writer_null_word():
     words = hp.reader(tweet)
     scores = hp.scrabble_scores(words)
     assert hp.write_reply(words, scores) == tweet_reply
+    for w in words:
+        hp.remove_word_from_log(w.lower())
+
+def test_duplicate_tweet_scores():
+    tweet = "A FINISHED tweet looks like this"
+    tweet_reply = None
+    words = hp.reader(tweet)
+    scores = hp.scrabble_scores(words)
+    assert hp.write_reply(words, scores) == tweet_reply
+    for w in words:
+        hp.remove_word_from_log(w.lower())
 
 
